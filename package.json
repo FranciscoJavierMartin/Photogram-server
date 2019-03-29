@@ -1,0 +1,14 @@
+{
+  "name": "photogram-server",
+  "version": "0.1.0",
+  "description": "Server for photogram application",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Francisco Martin",
+  "license": "MIT",
+  "devDependencies": {
+    "nodemon": "^1.18.10"
+  }
+}

@@ -1,6 +1,7 @@
 import mongoose from 'mongoose';
 import Server from "./server";
 import userRoutes from "./routes/users.routes";
+import bodyParser from 'body-parser';
 
 const URL_MONGODB: string = 'mongodb://localhost:27017/';
 const DATABASE_NAME: string = 'photogram';
@@ -8,6 +9,10 @@ const PORT: number = 3000;
 
 
 const server = new Server(PORT);
+
+
+server.app.use(bodyParser.urlencoded({extended: true}));
+server.app.use(bodyParser.json());
 
 server.app.use('/user', userRoutes);
 

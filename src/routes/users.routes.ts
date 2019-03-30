@@ -1,6 +1,8 @@
 import { Router, Request, Response } from "express";
 import { User } from "../models/user.model";
 import bcrypt from 'bcrypt';
+import Token from "../token";
+import { verifyToken } from "../middlewares/authentication";
 
 const userRoutes = Router();
 
@@ -23,9 +25,16 @@ userRoutes.post('/login', (req: Request, res: Response) => {
     }else{
       if(userDB.comparePassword(body.password)){
 
+        const tokenUser = Token.getJwtToken({
+          _id: userDB._id,
+          name: userDB.eventNames,
+          email: userDB.email,
+          avatar: userDB.avatar
+        })
+
         res.json({
           ok:true,
-          token: ''
+          token: tokenUser
         });
 
       }else{
@@ -53,10 +62,24 @@ userRoutes.post('/create', (req:Request, res: Response) => {
   };
 
   User.create(user).then(userDB =>{
+
+    const tokenUser = Token.getJwtToken({
+      _id: userDB._id,
+      name: userDB.eventNames,
+      email: userDB.email,
+      avatar: userDB.avatar
+    })
+
+    res.json({
+      ok:true,
+      token: tokenUser
+    });
+
     res.json({
       ok: true,
       user: userDB
     });
+
   }).catch(err => {
     res.json({
       ok: false,
@@ -64,6 +87,13 @@ userRoutes.post('/create', (req:Request, res: Response) => {
     });
   });
 
+});
+
+userRoutes.post('/update', verifyToken, (req:any, res: Response) => {
+  res.json({
+    ok:true,
+    user: req.user
+  });
 });
 
 export default userRoutes;

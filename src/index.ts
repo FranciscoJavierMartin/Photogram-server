@@ -1,7 +1,9 @@
 import mongoose from 'mongoose';
 import Server from "./server";
-import userRoutes from "./routes/users.routes";
 import bodyParser from 'body-parser';
+
+import userRoutes from "./routes/users.routes";
+import postRoutes from './routes/post.routes';
 
 const URL_MONGODB: string = 'mongodb://localhost:27017/';
 const DATABASE_NAME: string = 'photogram';
@@ -15,6 +17,8 @@ server.app.use(bodyParser.urlencoded({extended: true}));
 server.app.use(bodyParser.json());
 
 server.app.use('/user', userRoutes);
+server.app.use('/posts', postRoutes);
+
 
 mongoose.connect(URL_MONGODB + DATABASE_NAME,
   { useNewUrlParser: true, useCreateIndex: true}, (err) => {

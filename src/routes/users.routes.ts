@@ -30,7 +30,7 @@ userRoutes.post('/login', (req: Request, res: Response) => {
           name: userDB.eventNames,
           email: userDB.email,
           avatar: userDB.avatar
-        })
+        });
 
         res.json({
           ok:true,
@@ -116,6 +116,16 @@ userRoutes.post('/update', verifyToken, (req:any, res: Response) => {
     ok:true,
     user: req.user
   });
+});
+
+userRoutes.get('/', [verifyToken], (req:any, res: Response) => {
+  const user = req.user;
+
+  res.json({
+    ok:true,
+    user
+  });
+
 });
 
 export default userRoutes;

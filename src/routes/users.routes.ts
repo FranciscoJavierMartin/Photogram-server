@@ -6,6 +6,41 @@ const userRoutes = Router();
 
 userRoutes.post('/login', (req: Request, res: Response) => {
 
+  const body = req.body;
+
+  User.findOne({
+    email: body.email
+  }, (err, userDB) => {
+    if(err){
+      // Error handler
+    }
+
+    if(!userDB){
+      res.json({
+        ok: false,
+        message: 'User or password are not correct'
+      });
+    }else{
+      if(userDB.comparePassword(body.password)){
+
+        res.json({
+          ok:true,
+          token: ''
+        });
+
+      }else{
+        res.json({
+          ok: false,
+          message: 'User or password are not correct'
+        })
+      }
+    }
+
+    
+
+
+  });
+
 });
 
 userRoutes.post('/create', (req:Request, res: Response) => {
@@ -20,7 +55,7 @@ userRoutes.post('/create', (req:Request, res: Response) => {
   User.create(user).then(userDB =>{
     res.json({
       ok: true,
-      message: 'All works fine'
+      user: userDB
     });
   }).catch(err => {
     res.json({
@@ -28,8 +63,6 @@ userRoutes.post('/create', (req:Request, res: Response) => {
       err
     });
   });
-
-  
 
 });
 

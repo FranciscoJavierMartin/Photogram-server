@@ -90,6 +90,28 @@ userRoutes.post('/create', (req:Request, res: Response) => {
 });
 
 userRoutes.post('/update', verifyToken, (req:any, res: Response) => {
+
+  const user = {
+    name: req.body.name || req.user.name,
+    email: req.body.email || req.user.email,
+    avatar: req.body.avatar || req.user.avatar,
+  }
+
+  User.findByIdAndUpdate(req.user._id, user, {new: true}, (err, userDB) => {
+    
+    if(err){
+      //TODO: Handle error
+    } else  if(!userDB){
+      res.json({
+        ok: false,
+        message: 'User does not exists on database'
+      });
+    } else {
+
+    }
+
+  });
+
   res.json({
     ok:true,
     user: req.user

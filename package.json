@@ -4,12 +4,14 @@
   "description": "Server for photogram application",
   "main": "index.js",
   "scripts": {
+    "start": "nodemon dist/index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Francisco Martin",
   "license": "MIT",
   "devDependencies": {
     "@types/bcrypt": "^3.0.0",
+    "@types/cors": "^2.8.4",
     "@types/express": "^4.16.1",
     "@types/express-fileupload": "^0.4.0",
     "@types/jsonwebtoken": "^8.3.2",
